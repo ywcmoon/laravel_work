@@ -4,11 +4,11 @@ Workerman + Laravel + Vue.js 实战聊天室
 版本
 ======================
 
-PHP 8.2.9
-
-MYSQL 5.7.6
+OS windows
 
 Laravel Framework 12.31.1
+
+PHP 8.2.9   
 
 启动
 ======================
