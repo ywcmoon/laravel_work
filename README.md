@@ -46,7 +46,7 @@ passthru($command);
 ```shell
 npm run watch
 ```
- 
+
 启动laravel服务器
 ```shell
 php start-serve.php
