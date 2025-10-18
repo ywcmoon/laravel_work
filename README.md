@@ -1,14 +1,18 @@
 Workerman + Laravel + Vue.js 实战聊天室
+=================
+
 版本
+======================
 
 PHP 8.2.9
 MYSQL 5.7.6
 Laravel Framework 12.31.1
 
 启动
+======================
 
 如果启动内置的 PHP 开发服务器php artisan serve无效，则在根目录下新建 start-server.php 文件
-
+```shell
 <?php
 // 自定义服务器启动脚本
 $host = '127.0.0.1';
@@ -24,6 +28,7 @@ $command = sprintf(
     $port,
     escapeshellarg($publicDir)
 );
+```
 
 // 执行命令
 passthru($command);
