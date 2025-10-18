@@ -5,7 +5,9 @@ Workerman + Laravel + Vue.js 实战聊天室
 ======================
 
 PHP 8.2.9
+
 MYSQL 5.7.6
+
 Laravel Framework 12.31.1
 
 启动
