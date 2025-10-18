@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="app">
+        <ul>
+            <li v-for="message in messages">{{message}}</li>
+        </ul>
+
+        <form @submit.prevent="onSubmit">
+            <input type="text" v-model="content">
+            <input type="submit">
+        </form>
+    </div>
+    <!-- Vue 2 -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.min.js"></script>
+    <!-- Vue 3 -->
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+    <script>
+        // var ws = new WebSocket("ws://0.0.0.0:7272");
+
+        // windows用户千万注意，这里你需要使用
+        var ws = new WebSocket("ws://127.0.0.1:7272");
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                messages: [],
+                content: ''
+            },
+            created: function () {
+                ws.onmessage = function (e) {
+                    this.messages.push(e.data);
+                }.bind(this);
+            },
+            methods: {
+                onSubmit: function () {
+                    ws.send(this.content);
+                    this.content = '';
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>
