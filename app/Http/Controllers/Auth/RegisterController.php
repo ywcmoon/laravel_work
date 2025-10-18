@@ -1,11 +1,11 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -49,8 +49,8 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'name'     => ['required', 'string', 'max:255'],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
@@ -63,10 +63,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $url = $this->getRandomDogJson();
+
         return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
+            'name'     => $data['name'],
+            'email'    => $data['email'],
             'password' => Hash::make($data['password']),
+            'avatar'   => $url,
         ]);
+    }
+
+    /**
+     * 调用狗狗图片接口获取随机图片URL
+     *
+     * @return string
+     */
+    public function getRandomDogJson()
+    {
+        $response = Http::withOptions([
+            'verify' => false, // 禁用SSL检查
+        ])->get('https://dog.ceo/api/breeds/image/random');
+        $data = $response->json();
+        $url  = isset($data['message']) ? $data['message'] : '';
+        return $url;
     }
 }

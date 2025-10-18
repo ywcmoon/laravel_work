@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\Log;
 class HomeController extends Controller
 {
 
-    public $avatar;
-
     public function __construct()
     {
         $this->middleware('auth');
@@ -20,9 +18,6 @@ class HomeController extends Controller
         // 设置GatewayWorker服务的Register服务ip和端口
         Gateway::$registerAddress = '127.0.0.1:1238';
 
-        // 设置默认头像
-        $user         = Auth::user();
-        $this->avatar = $user->avatar ?? 'https://images.dog.ceo//breeds//sheepdog-shetland//n02105855_4281.jpg';
     }
 
     /**
@@ -98,17 +93,12 @@ class HomeController extends Controller
      */
     private function login()
     {
-        $user = Auth::user();
-
-        // 确保 avatar 字段存在，如果不存在则使用默认值
-        $avatar = $user->avatar ?? 'https://images.dog.ceo//breeds//sheepdog-shetland//n02105855_4281.jpg';
-        $name   = $user->name ?? '匿名用户';
 
         $data = [
             'type' => 'say',
             'data' => [
-                'avatar'  => $avatar,
-                'name'    => $name,
+                'avatar'  => Auth::user()->avatar,
+                'name'    => Auth::user()->name,
                 'content' => '进入了聊天室',
                 'time'    => date("Y-m-d H:i:s", time()),
             ],
@@ -124,12 +114,11 @@ class HomeController extends Controller
     }
 
     public function say(Request $request)
-    {
-        $avatar = $user->avatar ?? 'https://images.dog.ceo//breeds//sheepdog-shetland//n02105855_4281.jpg';
+    { 
         $data   = [
             'type' => 'say',
             'data' => [
-                'avatar'  => $this->avatar,
+                'avatar'  => Auth::user()->avatar,
                 'name'    => Auth::user()->name,
                 'content' => $request->input('content'),
                 'time'    => date("Y-m-d H:i:s", time()),
